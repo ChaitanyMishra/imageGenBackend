@@ -10,6 +10,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -26,7 +27,7 @@ const {
     RUNWARE_API,
     RUNWARE_UUID,
     RUNWARE_MODEL,
-    PORT = 3000
+    PORT = 10000
 } = process.env;
 
 // ======================== ROUTES ========================
@@ -106,7 +107,6 @@ app.post('/api/runware', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch from Runware' });
     }
 });
-
 
 // Send index.html for root route
 app.get('/', (req, res) => {
