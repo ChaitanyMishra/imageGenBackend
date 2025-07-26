@@ -107,8 +107,6 @@ app.post('/api/runware', async (req, res) => {
     }
 });
 
-// Serve static files from public/
-app.use(express.static(path.join(__dirname, '../public')));
 
 // Send index.html for root route
 app.get('/', (req, res) => {
