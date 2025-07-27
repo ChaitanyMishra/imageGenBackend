@@ -10,7 +10,21 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+// Compression for faster asset delivery
+const compression = require('compression');
+app.use(compression());
+// Serve static files with cache headers
+app.use(express.static(path.join(__dirname, '../public'), {
+  maxAge: '7d',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+    if (filePath.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
 
 // Rate Limiting
 const limiter = rateLimit({
